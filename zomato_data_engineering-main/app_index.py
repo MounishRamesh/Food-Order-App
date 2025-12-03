@@ -3,16 +3,16 @@ import mysql.connector
 
 app = Flask(__name__)
 
-# ✅ Database Connection
+# Database Connection
 def create_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password='ramesh@05"',  # ⚠️ Remove the quote if not part of your actual password
+        password='ramesh@05"',  # Remove the quote if not part of your actual password
         database='foods'
     )
 
-# ✅ Home Page
+# Home Page
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -48,14 +48,14 @@ def place_order():
         connection = create_connection()
         cursor = connection.cursor()
 
-        # ✅ Insert customer
+        # Insert customer
         cursor.execute("""
             INSERT INTO customers (first_name, last_name, phone_number, email)
             VALUES (%s, %s, %s, %s)
         """, (first_name, last_name, phone_number, email))
         customer_id = cursor.lastrowid
 
-        # ✅ Insert orders
+        # Insert orders
         order_ids = []
         for item in cart:
             item_name = item['name']
@@ -74,7 +74,7 @@ def place_order():
             """, (customer_id, item_id, quantity, address))
             order_ids.append(cursor.lastrowid)
 
-        # ✅ Insert payment for the last order
+        # Insert payment for the last order
         latest_order_id = order_ids[-1]
         cursor.execute("""
             INSERT INTO payments (order_id, payment_method, payment_status, amount)
@@ -93,7 +93,7 @@ def place_order():
             connection.close()
 
 
-# ✅ Fetch all Orders
+# Fetch all Orders
 @app.route('/orders', methods=['GET'])
 def get_orders():
     connection = None
@@ -117,7 +117,7 @@ def get_orders():
             connection.close()
 
 
-# ✅ Add Customer
+# Add Customer
 @app.route('/add_customer', methods=['POST'])
 def add_customer():
     connection = None
@@ -150,7 +150,7 @@ def add_customer():
             connection.close()
 
 
-# ✅ Get All Customers
+# Get All Customers
 @app.route('/customers', methods=['GET'])
 def get_customers():
     connection = None
