@@ -133,7 +133,7 @@ def run_queries_and_save():
     cursor = connection.cursor(dictionary=True)
     now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
-    # ✅ Use 'with' to properly save all sheets
+    # Use 'with' to properly save all sheets
     with pd.ExcelWriter(f'daily_report_{now}.xlsx', engine='openpyxl') as writer:
         for name, query in queries.items():
             print(f"Running: {name} ...")
@@ -141,7 +141,7 @@ def run_queries_and_save():
             data = cursor.fetchall()
             df = pd.DataFrame(data)
             df.to_excel(writer, sheet_name=name[:30], index=False)
-            print(f"✅ Saved: {name}")
+            print(f"saved: {name}")
 
     cursor.close()
     connection.close()
@@ -150,3 +150,4 @@ def run_queries_and_save():
 
 if __name__ == "__main__":
     run_queries_and_save()
+
